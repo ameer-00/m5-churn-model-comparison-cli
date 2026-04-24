@@ -1,0 +1,24 @@
+# Tree vs. Linear Disagreement Analysis
+
+## Sample Details
+
+- **Test-set index:** 777
+- **True label:** 0
+- **RF predicted P(churn=1):** 0.5998
+- **LR predicted P(churn=1):** 0.1700
+- **Probability difference:** 0.4299
+
+## Feature Values
+
+- **tenure:** 36
+- **monthly_charges:** 20.0
+- **total_charges:** 1077.33
+- **num_support_calls:** 2
+- **senior_citizen:** 0
+- **has_partner:** 0
+- **has_dependents:** 0
+- **contract_months:** 1
+
+## Structural Explanation
+
+The Random Forest assigns a high churn probability (~0.60) while Logistic Regression gives a low one (~0.17) for this customer. The key driver is a non-monotonic interaction: the customer has a short `contract_months` (1 — month-to-month) combined with a moderate `tenure` of 36 months and zero dependents. The decision tree can isolate the threshold `contract_months ≤ 1` as a high-risk split regardless of tenure, whereas logistic regression must express this risk as a linear combination of feature weights and cannot capture the sharp boundary that short contract length creates independently of how long the customer has already stayed.
